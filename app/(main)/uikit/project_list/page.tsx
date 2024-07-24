@@ -5,13 +5,11 @@ import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { Button } from 'primereact/button';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { Rating } from 'primereact/rating';
-import { PickList } from 'primereact/picklist';
-import { OrderList } from 'primereact/orderlist';
 import { ProductService } from '../../../../demo/service/ProductService';
 import { InputText } from 'primereact/inputtext';
 import type { Demo } from '@/types';
 
-const ListDemo = () => {
+const ProjectList = () => {
     const listValue = [
         { name: 'San Francisco', code: 'SF' },
         { name: 'London', code: 'LDN' },
@@ -34,17 +32,17 @@ const ListDemo = () => {
     const [sortField, setSortField] = useState('');
 
     const sortOptions = [
-        { label: 'Price High to Low', value: '!price' },
-        { label: 'Price Low to High', value: 'price' }
+        { label: 'Date Recent to Start', value: '!date' },
+        { label: 'Date Start to Recent', value: 'date' }
     ];
 
     useEffect(() => {
-        ProductService.getProducts().then((data) => setDataViewValue(data));
+        ProductService.getProductsSmall().then((data) => setDataViewValue(data));
         setGlobalFilterValue('');
     }, []);
 
     useEffect(() => {
-        ProductService.getProducts().then((data) => setDataViewValue(data));
+        ProductService.getProductsSmall().then((data) => setDataViewValue(data));
         setGlobalFilterValue('');
     }, []);
 
@@ -104,7 +102,7 @@ const ListDemo = () => {
                         </div>
                     </div>
                     <div className="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
-                        <span className="text-2xl font-semibold mb-2 align-self-center md:align-self-end">${data.price}</span>
+                        <span className="text-2xl font-semibold mb-2 align-self-center md:align-self-end">{data.date}</span>
                         <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} size="small" className="mb-2"></Button>
                         <span className={`product-badge status-${data.inventoryStatus?.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
@@ -115,24 +113,17 @@ const ListDemo = () => {
 
     const dataviewGridItem = (data: Demo.Product) => {
         return (
-            <div className="col-12 lg:col-4">
+            <div className="col-12 lg:col-3">
                 <div className="card m-3 border-1 surface-border">
                     <div className="flex flex-wrap gap-2 align-items-center justify-content-between mb-2">
                         <div className="flex align-items-center">
-                            <i className="pi pi-tag mr-2" />
-                            <span className="font-semibold">{data.category}</span>
+                            <i className="pi pi-folder" style={{ fontSize: '2.5rem' }}></i>
                         </div>
-                        <span className={`product-badge status-${data.inventoryStatus?.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
-                    <div className="flex flex-column align-items-center text-center mb-3">
-                        <img src={`/demo/images/product/${data.image}`} alt={data.name} className="w-9 shadow-2 my-3 mx-0" />
-                        <div className="text-2xl font-bold">{data.name}</div>
-                        <div className="mb-3">{data.description}</div>
-                        <Rating value={data.rating} readOnly cancel={false} />
-                    </div>
+                    <div className="flex flex-column align-items-center text-center mb-3"></div>
+                    <div className="text-xl font-bold">{data.name}</div>
                     <div className="flex align-items-center justify-content-between">
-                        <span className="text-2xl font-semibold">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} />
+                        <span className="text-2s">{data.date}</span>
                     </div>
                 </div>
             </div>
@@ -155,38 +146,12 @@ const ListDemo = () => {
         <div className="grid">
             <div className="col-12">
                 <div className="card">
-                    <h5>DataView</h5>
-                    <DataView value={filteredValue || dataViewValue} layout={layout} paginator rows={9} sortOrder={sortOrder} sortField={sortField} itemTemplate={itemTemplate} header={dataViewHeader}></DataView>
-                </div>
-            </div>
-
-            <div className="col-12 xl:col-8">
-                <div className="card">
-                    <h5>PickList</h5>
-                    <PickList
-                        source={picklistSourceValue}
-                        target={picklistTargetValue}
-                        sourceHeader="From"
-                        targetHeader="To"
-                        itemTemplate={(item) => <div>{item.name}</div>}
-                        onChange={(e) => {
-                            setPicklistSourceValue(e.source);
-                            setPicklistTargetValue(e.target);
-                        }}
-                        sourceStyle={{ height: '200px' }}
-                        targetStyle={{ height: '200px' }}
-                    ></PickList>
-                </div>
-            </div>
-
-            <div className="col-12 xl:col-4">
-                <div className="card">
-                    <h5>OrderList</h5>
-                    <OrderList value={orderlistValue} listStyle={{ height: '200px' }} className="p-orderlist-responsive" header="Cities" itemTemplate={(item) => <div>{item.name}</div>} onChange={(e) => setOrderlistValue(e.value)}></OrderList>
+                    {/* <h5>DataView</h5> */}
+                    <DataView value={filteredValue || dataViewValue} layout={layout} paginator rows={12} sortOrder={sortOrder} sortField={sortField} itemTemplate={itemTemplate} header={dataViewHeader}></DataView>
                 </div>
             </div>
         </div>
     );
 };
 
-export default ListDemo;
+export default ProjectList;

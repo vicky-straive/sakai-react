@@ -128,6 +128,7 @@ declare namespace Demo {
         category?: string;
         quantity?: number;
         inventoryStatus?: InventoryStatus;
+        date: number;
         rating?: number;
         orders?: ProductOrder[];
         [key: string]: string | string[] | number | boolean | undefined | ProductOrder[] | InventoryStatus;

@@ -1,6 +1,16 @@
 @media screen and (min-width: 1960px) {
     .layout-main, .landing-wrapper {
-        width: 1504px;
+        // width: 1504px;
+        width: -webkit-fill-available;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media screen and (min-width: 1960px) {
+    .editor-layout {
+        // width: 1504px;
+        width: -webkit-fill-available;
         margin-left: auto !important;
         margin-right: auto !important;
     }
